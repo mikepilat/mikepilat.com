@@ -1,0 +1,11 @@
+title: Michael Pilat is a Geek
+description: >
+  Handcrafted with only the finest ones and zeros.
+baseurl: ""
+url: "http://mikepilat.com"
+email: mike@mikepilat.com
+twitter_username: mikepilat
+github_username:  mikepilat
+
+# Build settings
+markdown: kramdown
