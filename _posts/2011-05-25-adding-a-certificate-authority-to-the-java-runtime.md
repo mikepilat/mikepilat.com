@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Adding a certificate authority to the Java runtime
+permalink: /2011/05/adding-a-certificate-authority-to-the-java-runtime.html
 ---
 If you have a Java project or a Java server application, and it needs to access
 an external resource via HTTPS but the resource's SSL certificate is not signed

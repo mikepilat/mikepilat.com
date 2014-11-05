@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Mountain lions and Worcestershire sauce
+permalink: /2010/09/mountain-lions-and-worcestershire-sauce.html
 ---
 I'm not a chemist, but I recently came across the blog of pharmaceutical
 chemist Derek Lowe, and in particular, his serial feature called 

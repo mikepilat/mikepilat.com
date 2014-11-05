@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Determining if an application is installed with AppleScript
+permalink: /2010/04/determining-if-an-application-is-installed-with-applescript.html
 ---
 This is a quick post to archive something that took me too long to find online,
 and hopefully someone else will find it useful (and perhaps easier to find). As

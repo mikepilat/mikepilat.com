@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Using dd-wrt on a Linksys WAP54G
+permalink: /2010/02/using-dd-wrt-on-linksys-wap54g.html
 ---
 After I recently relocated my home office to a different room, the TiVo and
 other Ethernet-hungry gear in our living room was no longer wired into our
