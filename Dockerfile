@@ -11,7 +11,7 @@ COPY src/ ./src/
 COPY public/ ./public/
 RUN bun run build
 
-FROM nginxinc/nginx-unprivileged:stable-alpine@sha256:9b87ad3dd9f431c733f19dfb278c7eb3dba9dca381942c79818bb42f1a566a83
+FROM nginxinc/nginx-unprivileged:stable-alpine@sha256:442753882674b49ae2c1de83ed67896131c0777f56df5005e356e62bc3f7e7ce
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist/ /site/
 USER 101:101
