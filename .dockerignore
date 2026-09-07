@@ -1,0 +1,16 @@
+# Only files needed for the static build enter its context.
+**
+!Dockerfile
+!.dockerignore
+!nginx.conf
+!package.json
+!bun.lock
+!astro.config.mjs
+!tsconfig.json
+!src/
+!src/**
+!public/
+!public/**
+**/.env
+**/.env.*
+**/.DS_Store

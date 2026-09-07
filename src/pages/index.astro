@@ -1,0 +1,40 @@
+---
+import { Content } from '../content/home.md';
+import { Content as FooterContent } from '../content/footer.md';
+import DriftingLight from '../components/DriftingLight.astro';
+import faviconUrl from '../assets/favicon.svg?url';
+import titleFontUrl from '../assets/newsreader-latin-400-72.woff2?url';
+import '../styles/global.css';
+
+const name = 'Michael Pilat';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href={faviconUrl} />
+    <link rel="preload" href={titleFontUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <title>{name}</title>
+  </head>
+  <body>
+    <DriftingLight />
+    <main>
+      <header>
+        <span class="accent" aria-hidden="true"></span>
+        <h1>{name}</h1>
+      </header>
+      <div class="prose">
+        <Content />
+      </div>
+    </main>
+    <footer class="site-footer">
+      <nav aria-label="Social links">
+        <FooterContent />
+      </nav>
+    </footer>
+  </body>
+</html>

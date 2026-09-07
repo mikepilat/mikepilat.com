@@ -1,0 +1,120 @@
+<drifting-light aria-hidden="true">
+  <div class="light-field"></div>
+</drifting-light>
+
+<style>
+  drifting-light {
+    --light-blue: rgb(65 111 230 / 0.13);
+    --light-violet: rgb(118 132 219 / 0.09);
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    contain: strict;
+  }
+
+  .light-field {
+    position: absolute;
+    inset: -20%;
+    transform: translate3d(var(--pointer-x, 0px), var(--pointer-y, 0px), 0);
+    transition: transform 2.4s ease-out;
+  }
+
+  .light-field::before,
+  .light-field::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 38% 35%,
+      var(--light-blue),
+      transparent 52%
+    );
+    animation: drift-blue 38s ease-in-out infinite alternate;
+  }
+
+  .light-field::after {
+    background: radial-gradient(
+      ellipse at 65% 62%,
+      var(--light-violet),
+      transparent 48%
+    );
+    animation: drift-violet 47s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift-blue {
+    from { transform: translate3d(-5%, -3%, 0) scale(1); }
+    to { transform: translate3d(8%, 6%, 0) scale(1.12); }
+  }
+
+  @keyframes drift-violet {
+    from { transform: translate3d(5%, 4%, 0) scale(1.08); }
+    to { transform: translate3d(-7%, -5%, 0) scale(0.95); }
+  }
+
+  drifting-light[data-paused] .light-field::before,
+  drifting-light[data-paused] .light-field::after {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    drifting-light {
+      --light-blue: rgb(65 111 230 / 0.14);
+      --light-violet: rgb(118 132 219 / 0.08);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .light-field { transform: none; transition: none; }
+    .light-field::before,
+    .light-field::after { animation: none; }
+  }
+</style>
+
+<script>
+  class DriftingLight extends HTMLElement {
+    private cleanup?: AbortController;
+
+    connectedCallback() {
+      this.cleanup?.abort();
+      this.cleanup = new AbortController();
+      const { signal } = this.cleanup;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+      const resetPointer = () => {
+        this.style.removeProperty('--pointer-x');
+        this.style.removeProperty('--pointer-y');
+      };
+      const syncVisibility = () => {
+        this.toggleAttribute('data-paused', document.hidden);
+        if (document.hidden) resetPointer();
+      };
+
+      window.addEventListener('pointermove', (event: PointerEvent) => {
+        if (document.hidden || reducedMotion.matches || !finePointer.matches || event.pointerType === 'touch') return;
+        // A maximum 12px offset keeps the light peripheral to the text.
+        const x = Math.max(-1, Math.min(1, event.clientX / window.innerWidth * 2 - 1));
+        const y = Math.max(-1, Math.min(1, event.clientY / window.innerHeight * 2 - 1));
+        this.style.setProperty('--pointer-x', `${x * 12}px`);
+        this.style.setProperty('--pointer-y', `${y * 12}px`);
+      }, { passive: true, signal });
+
+      document.addEventListener('pointerleave', resetPointer, { signal });
+      window.addEventListener('blur', resetPointer, { signal });
+      document.addEventListener('visibilitychange', syncVisibility, { signal });
+      reducedMotion.addEventListener('change', resetPointer, { signal });
+      finePointer.addEventListener('change', resetPointer, { signal });
+      syncVisibility();
+    }
+
+    disconnectedCallback() {
+      this.cleanup?.abort();
+    }
+  }
+
+  if (!customElements.get('drifting-light')) {
+    customElements.define('drifting-light', DriftingLight);
+  }
+</script>
